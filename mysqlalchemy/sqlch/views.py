@@ -1,4 +1,4 @@
-# coding = utf-8
+#coding = utf-8
 
 from sqlch import app, session
 from sqlch.models import MyTable
@@ -22,3 +22,7 @@ def reg():
         session.commit()
         return RequestRedirect('/')
     return render_template('reg.html')
+
+@app.route('/test/')
+def test():
+    return render_template('test.html')

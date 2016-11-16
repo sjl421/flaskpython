@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+    <head>
+
+        <meta charset="utf-8">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link href="{{ url_for('static', filename='css/bootstrap.min.css')  }}" rel="stylesheet">
+
+        <title>{{title}}</title>
+
+    </head>
+
+    <header>
+
+</header>
+
+    <body>
+
+        {% block content %}
+
+        {% endblock %}
+
+        <button type="button" class="btn btn-warning" onclick="$(this).hide();">Clicke me</button>
+
+   </body> <script type="text/javascript" src="{{ url_for('static', filename= 'js/jquery-3.1.1.min.js')  }}" </script>
+
+    <script type="text/javascript" src="{{ url_for('static', filename= 'js/bootstrap.js')  }}" </script>
+
+<script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}" </script>
+
+    <script type="text/javascript" src="{{ url_for('static', filename='js/myjs.js') }}" </script>
+
+</html>
+           
