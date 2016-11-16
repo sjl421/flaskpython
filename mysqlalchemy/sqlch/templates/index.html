@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Home Page</title>
+    </head>
+    <body>
+        <div class='data'>
+            <ul>
+            {% for p in  data %}
+                <li>
+                <p>User:{{p.name}}</p>
+                <p>Value:{{p.value}}</p>
+                </li>
+            {% endfor %}
+            <ul>
+        </div>
+    </body>
+</html>
