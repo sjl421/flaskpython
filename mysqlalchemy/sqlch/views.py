@@ -1,4 +1,4 @@
-#coding = utf-8
+# coding = utf-8
 
 from sqlch import app, session
 from sqlch.models import MyTable
@@ -26,3 +26,29 @@ def reg():
 @app.route('/test/')
 def test():
     return render_template('test.html')
+
+from .forms import LoginForm
+@app.route('/login/', methods=['GET', 'POST'])
+def login():
+    loginForm = LoginForm()
+    if request.method == 'POST' and oginForm.validate_on_submit():
+        print('Enter post...')
+        openid = loginForm.openid.data
+        print('openid is:' + openid)
+        if openid == 'kk':
+            print('set error info')
+            errs= ('Invalid input, KK is forbidden',)
+            print('errs length %r' %(len(errs)))
+            loginForm.openid.errors = errs
+            print('Error data:')
+            print(len(loginForm.openid.errors))
+
+            for err in loginForm.openid.errors:
+                print('err:' + err)
+            print('try to render template')
+            return render_template('login.html', form=loginForm)
+        remember = loginForm.remember_me.data
+        return render_template('showdata.html', data=(openid, remember))
+    print('render the default login form')
+    return render_template('login.html', form=loginForm)
+        
