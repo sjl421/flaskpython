@@ -17,19 +17,15 @@ from flask_mail import Mail
 # pip3 install flask-debugtoolbar
 from flask_debugtoolbar import DebugToolbarExtension
 
-# import dbutils
-from .dbutils import get_db_session
-
-#create werzeug instance
 app = Flask(__name__)
 app.config.from_object('config')
+connectionstr = app.config['SQLALCHEMY_DATABASE_URI']
+
+# import dbutils
+from .dbutils import db_session
 
 bcrypt = Bcrypt(app)
 from .models import User
-
-#create db connection
-connectionstr = app.config['SQLALCHEMY_DATABASE_URI']
-session = get_db_session(connectionstr)
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -51,7 +47,7 @@ login_manager.login_message_category = "danger"
 
 @login_manager.user_loader
 def load_user(user_id):
-    return session.query(User).filter(User.id == int(user_id)).first()
+    return User.query.filter(User.id == int(user_id)).first()
 
 @app.errorhandler(403)
 def forbidden_page(error):

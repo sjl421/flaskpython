@@ -2,7 +2,7 @@
 from flask_wtf import FlaskForm
 from wtforms import TextField, PasswordField
 from wtforms.validators import DataRequired, Email, Length, EqualTo
-from regbymail import session
+from regbymail import db_session
 
 from regbymail.models import User
 
@@ -20,7 +20,7 @@ class RegisterForm(FlaskForm):
         initial_validation = super(RegisterForm, self).validate()
         if not initial_validation:
             return False
-        user = session.query(User).filter_by(email=self.email.data).first()
+        user = User.query.filter_by(email=self.email.data).first()
 
         if user:
             self.email.errors.append("Email is already registered!")

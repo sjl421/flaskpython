@@ -5,7 +5,8 @@ from flask_login import login_user, logout_user,\
     login_required, current_user
 
 from regbymail.models import User
-from regbymail import session, bcrypt
+from regbymail.dbutils import db_session
+from regbymail import  bcrypt
 from .forms import LoginForm, RegisterForm, ChangePasswordForm
 
 from regbymail.ldebug import log
@@ -28,8 +29,8 @@ def register():
             user = User(email = form.email.data,
             password = form.password.data)
             log.log('user email{0}, password{1}'.format(form.email.data, form.password.data))
-            session.add(user)
-            session.commit()
+            db_session.add(user)
+            db_session.commit()
         except:
             log.log_exception()
         
@@ -52,7 +53,7 @@ def login():
 
         if form.validate_on_submit():
             log.log('login.POST')
-            user = session.query(User).filter_by(email=form.email.data).first()
+            user = User.query.filter_by(email=form.email.data).first()
             if user and bcrypt.check_password_hash(user.password, request.form['password']):
                 login_user(user)
                 flash('Welcome', 'success')
@@ -76,16 +77,18 @@ def logout():
 @user_blueprint.route('/profile', methods=['GET', 'POST'])
 @login_required
 def profile():
-    form = ChangePasswordForm(request.form)
-    if form.validate_on_submit():
-        user = User.query.filter_by(email=current_user.email).first()
-        if user:
-            user.password = bcrypt.generate_password_hash(form.password.data)
-            session.commit()
-            flash('Password successfully changed', 'success')
-            return redirect(url_for('user.profile'))
-        else:
-            flash('Unable to change the password', 'danger')
-            return redirect(url_for('user.profile'))
-    return render_template('user/profile.html', form=form)
-    
+    try:
+        form = ChangePasswordForm(request.form)
+        if form.validate_on_submit():
+            user = User.query.filter_by(email=current_user.email).first()
+            if user:
+                user.password = bcrypt.generate_password_hash(form.password.data)
+                session.commit()
+                flash('Password successfully changed', 'success')
+                return redirect(url_for('user.profile'))
+            else:
+                flash('Unable to change the password', 'danger')
+                return redirect(url_for('user.profile'))
+        return render_template('user/profile.html', form=form)
+    except:
+        log.log_exception()

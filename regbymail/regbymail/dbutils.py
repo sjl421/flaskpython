@@ -1,18 +1,23 @@
 # coding=utf-8
 
+from regbymail import connectionstr
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, scoped_session
 
 #import database base model
 from sqlalchemy.ext.declarative import declarative_base
 
-def get_db_session(connectionstr):
-    engine = create_engine(connectionstr, echo=False)
-    Session = sessionmaker()
-    Session.configure(bind=engine)
-    session = Session()
-    return session
+DBEngine = create_engine(connectionstr, echo=False)
+    #Session = sessionmaker()
+    #Session.configure(bind=engine)
+    #session = Session()
+    
+    # To follow the official doc.
+db_session = scoped_session(sessionmaker(autocommit=False, \
+    autoflush=False, bind=DBEngine)) 
 
-def get_db_base():
-    Base = declarative_base()
-    return Base
+Base = declarative_base()
+
+#create werzeug instance
+Base.query = db_session.query_property()
+
