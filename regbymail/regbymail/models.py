@@ -9,7 +9,7 @@ from . import bcrypt
 class User(Base):
     __tablename__ = 'users'
 
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     email = Column(String(50), unique=True, nullable=False)
     password = Column(String(100), nullable=False)
     registered_on = Column(DateTime, nullable=False)
