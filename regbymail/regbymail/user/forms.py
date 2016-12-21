@@ -39,8 +39,3 @@ class ForgotPasswordForm(FlaskForm):
 class ResetPasswordForm(ChangePasswordForm):
     email = HiddenField(u'email', description='Email')
     
-    def validate(self):
-        log.log('Enter reset password form validate...')
-        val = super(ResetPasswordForm, self).validate()
-        log.log('Check result {}'.format(val))
-        return val     
