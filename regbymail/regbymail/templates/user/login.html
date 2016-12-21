@@ -6,7 +6,7 @@
     {{form.csrf_token}}
     <p>
      {{ form.email(placeholder="email") }}
-     <span class="error">
+     <span class="alert-danger">
          {% if form.email.errors %}
              {% for error in form.email.errors %}
                   {{error}}
@@ -16,13 +16,16 @@
      </p>
      <p>
         {{ form.password(placeholder="password") }}
-           <span class="error">
+           <span class="alert-danger">
                {% if form.password.errors %}
                    {% for error in form.password.errors %}
                         {{ error }}
                    {% endfor %}
                 {% endif %}
             </span>
+     </p>
+     <p>
+         <a href="/forgotpassword">      Forgot Password?</a>
      </p>
      <button class="btn btn-success" type="submit">Sign in</button>
      <br><br>

@@ -17,11 +17,16 @@ class User(Base):
     confirmed = Column(Boolean, nullable=False, default=False)
     confirmed_on = Column(DateTime, nullable=True)
 
-    def __init__(self, email, password, admin=False):
+    def __init__(self, email, password, confirmed, admin=False, confirmed_on=None):
         self.email = email
         self.password = bcrypt.generate_password_hash(password)
         self.registered_on = datetime.now()
         self.admin = admin
+        self.confirmed = confirmed
+        self.confirmed_on = confirmed_on
+    
+    def set_password(self, pwd):
+        self.password = bcrypt.generate_password_hash(pwd)
 
     def is_authenticated(self):
         return True

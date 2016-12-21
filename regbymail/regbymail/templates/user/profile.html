@@ -13,7 +13,7 @@
          {{ form.csrf_token }}
          <p>
              {{ form.password(placeholder="password") }}
-             <span class="error">
+             <span class="alert-danger">
                  {% if form.password.erros %}
                       {{error}}
                  {% endif %}
@@ -21,7 +21,7 @@
          </p>
          <p>
              {{ form.confirm(placeholder="confirm") }}
-             <span class="error">
+             <span class="alert-danger">
                  {% if form.confirm.errors %}
                      {% for error in form.confirm.errors %}
                          {{ error }}

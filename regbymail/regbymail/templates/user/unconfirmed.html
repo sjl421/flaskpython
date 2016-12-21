@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Welcome!</h1>
+<br>
+<p> You have not confirmed your accout. Please check your inbox(Maybe spam box)</p>
+<p>Didn't get the email?<a href="{{url_for('user.resend_confirmation')}}">Resend</a>.</p>
+{% endblock %}
+
