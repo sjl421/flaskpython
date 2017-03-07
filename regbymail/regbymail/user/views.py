@@ -138,7 +138,11 @@ def register():
             confirm_url = url_for('user.confirm_email', token=token, _external=True)
             html = render_template('user/activate.html', confirm_url=confirm_url)
             subject = "Please confirm your email!"
-            send_mail(user.email, subject, html)
+            sendResult = send_mail(user.email, subject, html)
+            if sendResult:
+                log.log('mail is sent successfully!')
+            else:
+                log.log('mail is not sent')
             
         except:
             log.log_exception()
